@@ -1,0 +1,10 @@
+You are an expert technical recruiter and resume writer. I am building a dataset to train a machine learning classification model to detect negative, "red flag" traits in tech resumes.
+
+Your task is to generate 50 highly realistic, synthetically created resume bullet points that explicitly demonstrate the following negative trait:
+[INSERT TRAIT HERE, e.g., "Claiming disproportionate credit in team projects", "Vague, non-specific bullet points", "Keyword stuffing for ATS"]
+
+Guidelines for the generation:
+1. Make them sound incredibly authentic to the tech industry (Software Engineering, Data Science, IT).
+2. The trait should be clearly identifiable but written in the way a candidate would natively attempt to present themselves. 
+3. Do not use cartoonishly bad language; make the flaws subtle but distinctly representative of the target trait.
+4. Output ONLY the 50 bullet points, each on a new line, starting with a dash (-). Do not include any conversational filler.

@@ -1,0 +1,12 @@
+You are an expert technical recruiter and resume writer. I am building a baseline dataset to train a machine learning model. I need examples of healthy, well-written resume bullet points.
+
+Your task is to generate 50 highly realistic, synthetically created resume bullet points that represent the "ideal" way to write a tech resume. 
+
+Specifically, these bullets should demonstrate the healthy POLAR OPPOSITE of the following negative trait:
+[INSERT TRAIT HERE, e.g., "Claiming disproportionate credit in team projects" -> "Collaborative team phrasing"]
+
+Guidelines for the generation:
+1. Make them sound incredibly authentic to the tech industry (Software Engineering, Data Science, IT).
+2. Bullet points should focus on concrete outcomes, specific technologies, clear metrics, and appropriate scope of responsibility.
+3. Be varied in your approach (mix frontend, backend, infrastructure, and team leadership examples).
+4. Output ONLY the 50 bullet points, each on a new line, starting with a dash (-). Do not include any conversational filler.
