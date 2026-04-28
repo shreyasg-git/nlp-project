@@ -11,6 +11,7 @@ OUTPUT_FILE = "synthetic_dataset.jsonl"
 NUM_EXAMPLES_TO_GENERATE = 100 # Adjust this to generate more/less
 
 # Read the traits from the initial prompt file
+
 def load_traits():
     traits = []
     try:
@@ -55,11 +56,13 @@ def generate_synthetic_example():
         "[RESUME SECTION]\n"
         "<Write the fake resume snippet here>\n"
         "[END SECTION]\n\n"
+
         # "<thoughts>\n"
         # "<Write your internal analysis spotting the flaw here>\n"
         # "</thoughts>\n\n"
         # "[ROAST]\n"
         # "<Write your brutal roast here>\n"
+
     )
     
     payload = {
