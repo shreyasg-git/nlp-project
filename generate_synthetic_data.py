@@ -7,7 +7,7 @@ import os
 # Configuration
 OLLAMA_API_URL = "http://localhost:11434/api/chat"
 MODEL = "llama3.1:8b-instruct-q4_K_M"
-OUTPUT_FILE = "synthetic_dataset.jsonl"
+OUTPUT_FILE = "modified-prompt-2.jsonl"
 NUM_EXAMPLES_TO_GENERATE = 100 # Adjust this to generate more/less
 
 # Read the traits from the initial prompt file
@@ -56,7 +56,7 @@ def generate_synthetic_example():
         "[RESUME SECTION]\n"
         "<Write the fake resume snippet here>\n"
         "[END SECTION]\n\n"
-
+        "CRITICAL: Do NOT add any extra notes, summaries, or conversational filler. Output ONLY the requested blocks."
         # "<thoughts>\n"
         # "<Write your internal analysis spotting the flaw here>\n"
         # "</thoughts>\n\n"
@@ -122,7 +122,7 @@ def main():
                 print("  -> Failed or badly formatted output. Skipping.")
                 
             # Slight delay to prevent overwhelming the local server
-            time.sleep(1)
+            time.sleep(3)
             
     print(f"\nDone! Successfully saved {success_count} synthetic pairs to {OUTPUT_FILE}.")
 
