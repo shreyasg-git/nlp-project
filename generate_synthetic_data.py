@@ -60,7 +60,8 @@ def generate_synthetic_example():
         "<Write your internal analysis spotting the flaw here>\n"
         "</thoughts>\n\n"
         "[ROAST]\n"
-        "<Write your brutal roast here>\n"
+        "<Write your brutal roast here>\n\n"
+        "CRITICAL: Do NOT add any extra notes, summaries, or conversational filler. Output ONLY the requested blocks."
     )
     
     payload = {
