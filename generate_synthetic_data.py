@@ -6,7 +6,7 @@ import os
 
 # Configuration
 OLLAMA_API_URL = "http://localhost:11434/api/chat"
-MODEL = "llama3:8b-instruct"
+MODEL = "llama3.1:8b-instruct-q4_K_M"
 OUTPUT_FILE = "synthetic_dataset.jsonl"
 NUM_EXAMPLES_TO_GENERATE = 100 # Adjust this to generate more/less
 
@@ -39,10 +39,10 @@ SECTIONS = [
 ]
 
 PERSONAS = [
-    "You are an exhausted Senior Staff Engineer reviewing a junior's resume. You despise buzzwords and corporate jargon. Read the prompt, generate the flawed resume section, analyze it inside <thoughts>, and deliver a highly technical, devastating 3-sentence roast.",
-    "You are a chaotic Ivy-League tech recruiter. Read the prompt, generate the flawed resume section, write your analysis in <thoughts> focusing on their ego or timeline gaps, and deliver a highly sarcastic, condescending roast about their self-importance.",
-    "You are the Gordon Ramsay of Software Engineering. Read the prompt, generate the 'raw' unstructured resume section, identify the mess inside <thoughts>, and deliver a blistering, metaphorical kitchen-nightmare roast of the applicant.",
-    "You are a brutally honest Startup Founder who has fired dozens of engineers. Read the prompt, generate the fake resume section, analyze the fluff in <thoughts>, and write a punchy, ruthless roast focusing on their lack of real-world impact and business reality."
+    "You are an exhausted Senior Staff Engineer reviewing a junior's resume. You despise buzzwords and corporate jargon. Read the prompt and generate the flawed resume section.",
+    "You are a chaotic Ivy-League tech recruiter. Read the prompt and generate the flawed resume section focusing on their ego or timeline gaps.",
+    "You are the Gordon Ramsay of Software Engineering. Read the prompt and generate the 'raw' unstructured resume section.",
+    "You are a brutally honest Startup Founder who has fired dozens of engineers. Read the prompt and generate the fake resume section focusing on their lack of real-world impact and business reality."
 ]
 
 def generate_synthetic_example():
@@ -56,12 +56,13 @@ def generate_synthetic_example():
         "[RESUME SECTION]\n"
         "<Write the fake resume snippet here>\n"
         "[END SECTION]\n\n"
-        "<thoughts>\n"
-        "<Write your internal analysis spotting the flaw here>\n"
-        "</thoughts>\n\n"
-        "[ROAST]\n"
-        "<Write your brutal roast here>\n\n"
-        "CRITICAL: Do NOT add any extra notes, summaries, or conversational filler. Output ONLY the requested blocks."
+
+        # "<thoughts>\n"
+        # "<Write your internal analysis spotting the flaw here>\n"
+        # "</thoughts>\n\n"
+        # "[ROAST]\n"
+        # "<Write your brutal roast here>\n"
+
     )
     
     payload = {
@@ -108,7 +109,7 @@ def main():
             print(f"Generating example {i+1}/{NUM_EXAMPLES_TO_GENERATE}...")
             
             data = generate_synthetic_example()
-            if data and "[ROAST]" in data["raw_output"] and "[RESUME SECTION]" in data["raw_output"]:
+            if data and "[RESUME SECTION]" in data["raw_output"]:
                 # Parse out the components cleanly for the dataset if desired, 
                 # or just store the raw block for standard instruction tuning.
                 
