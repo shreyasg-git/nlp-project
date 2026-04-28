@@ -11,6 +11,7 @@ OUTPUT_FILE = "synthetic_dataset.jsonl"
 NUM_EXAMPLES_TO_GENERATE = 100 # Adjust this to generate more/less
 
 # Read the traits from the initial prompt file
+
 def load_traits():
     traits = []
     try:
