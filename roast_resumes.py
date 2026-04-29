@@ -12,7 +12,9 @@ def roast_resumes(input_file, output_file):
     Reads resume sections from a JSONL file, roasts them using Groq API,
     and saves the results to another JSONL file.
     """
-    api_key = os.environ.get("GROQ_API_KEY")
+    # api_key = os.environ.get("GROQ_API_KEY")
+    api_key ="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"
+
     if not api_key:
         print("Error: Please set the GROQ_API_KEY environment variable.")
         sys.exit(1)
@@ -61,7 +63,7 @@ def roast_resumes(input_file, output_file):
                 """
                 
                 completion = client.chat.completions.create(
-                    model="llama-3.1-70b-versatile",
+                    model="openai/gpt-oss-120b",
                     messages=[
                         {"role": "system", "content": "You are a helpful assistant that outputs JSON."},
                         {"role": "user", "content": prompt}
@@ -90,4 +92,4 @@ def roast_resumes(input_file, output_file):
     print(f"\nAll done! Results stored in {output_file}")
 
 if __name__ == "__main__":
-    roast_resumes('modified-prompt-2.jsonl', 'roast_results.jsonl')
+    roast_resumes('modified-prompt-2.jsonl', 'roast_results_gpt-oss-120b.jsonl')
