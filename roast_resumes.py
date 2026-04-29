@@ -1,6 +1,11 @@
 import json
 import os
 import sys
+import time
+from dotenv import load_dotenv
+
+load_dotenv()
+
 try:
     from groq import Groq
 except ImportError:
@@ -12,7 +17,8 @@ def roast_resumes(input_file, output_file):
     Reads resume sections from a JSONL file, roasts them using Groq API,
     and saves the results to another JSONL file.
     """
-    # api_key = os.environ.get("GROQ_API_KEY")
+    # Load the API key from environment variable
+    api_key = os.environ.get("GROQ_API_KEY")
 
     if not api_key:
         print("Error: Please set the GROQ_API_KEY environment variable.")
@@ -39,56 +45,62 @@ def roast_resumes(input_file, output_file):
             if not line.strip():
                 continue
                 
-            try:
-                data = json.loads(line)
-                resume_text = data.get('raw_output', data.get('raw_text', ''))
-                
-                if not resume_text:
-                    continue
+            for attempt in range(2):
+                try:
+                    data = json.loads(line)
+                    resume_text = data.get('raw_output', data.get('raw_text', ''))
                     
-                prompt = f"""
-                You are a brutally honest, sarcastic tech recruiter. 
-                Roast the following resume section. 
-                Then, identify specific red flags as a list of short topics.
-                
-                Return ONLY a JSON object with the following structure:
-                {{
-                    "roast": "Your brutal roast here",
-                    "red_flags": ["Topic 1", "Topic 2"]
-                }}
+                    if not resume_text:
+                        break
+                        
+                    prompt = f"""
+                    You are a brutally honest, sarcastic tech recruiter. 
+                    Roast the following resume section. 
+                    Then, identify specific red flags as a list of short topics.
+                    
+                    Return ONLY a JSON object with the following structure:
+                    {{
+                        "roast": "Your brutal roast here",
+                        "red_flags": ["Topic 1", "Topic 2"]
+                    }}
 
-                Resume Section:
-                {resume_text}
-                """
-                
-                completion = client.chat.completions.create(
-                    model="openai/gpt-oss-120b",
-                    messages=[
-                        {"role": "system", "content": "You are a helpful assistant that outputs JSON."},
-                        {"role": "user", "content": prompt}
-                    ],
-                    response_format={"type": "json_object"}
-                )
-                
-                response_data = json.loads(completion.choices[0].message.content)
-                
-                result_entry = {
-                    "resume": resume_text,
-                    "red_flags": response_data.get("red_flags", []),
-                    "actual_roast": response_data.get("roast", "")
-                }
-                
-                # Write immediately and flush to disk
-                out_f.write(json.dumps(result_entry) + '\n')
-                out_f.flush() 
-                
-                print(f"[{i+1}/{total}] Roasted and saved.")
-                
-            except Exception as e:
-                print(f"[{i+1}/{total}] Error: {e}")
+                    Resume Section:
+                    {resume_text}
+                    """
+                    
+                    completion = client.chat.completions.create(
+                        model="openai/gpt-oss-120b",
+                        messages=[
+                            {"role": "system", "content": "You are a helpful assistant that outputs JSON."},
+                            {"role": "user", "content": prompt}
+                        ],
+                        response_format={"type": "json_object"}
+                    )
+                    
+                    response_data = json.loads(completion.choices[0].message.content)
+                    
+                    result_entry = {
+                        "resume": resume_text,
+                        "red_flags": response_data.get("red_flags", []),
+                        "actual_roast": response_data.get("roast", "")
+                    }
+                    
+                    # Write immediately and flush to disk
+                    out_f.write(json.dumps(result_entry) + '\n')
+                    out_f.flush() 
+                    
+                    print(f"[{i+1}/{total}] Roasted and saved.")
+                    break
+                    
+                except Exception as e:
+                    if attempt == 0:
+                        print(f"[{i+1}/{total}] Error: {e}. Retrying in 5 seconds...")
+                        time.sleep(5)
+                    else:
+                        print(f"[{i+1}/{total}] Failed after retry. Error: {e}")
 
             
     print(f"\nAll done! Results stored in {output_file}")
 
 if __name__ == "__main__":
-    roast_resumes('modified-prompt-2.jsonl', 'roast_results_gpt-oss-120b.jsonl')
+    roast_resumes('modified-prompt-2.jsonl', 'roast_results_gpt-oss-120b_2.jsonl')
