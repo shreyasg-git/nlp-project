@@ -12,7 +12,8 @@ except ImportError:
 
 # Configuration
 MODEL = "openai/gpt-oss-120b"
-OUTPUT_FILE = "modified-prompt-groq.jsonl"
+OUTPUT_FILE = "modified-prompt-groq-4.jsonl"
+
 NUM_EXAMPLES_TO_GENERATE = 100 
 
 def load_traits():
