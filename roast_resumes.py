@@ -13,7 +13,6 @@ def roast_resumes(input_file, output_file):
     and saves the results to another JSONL file.
     """
     # api_key = os.environ.get("GROQ_API_KEY")
-    api_key ="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"
 
     if not api_key:
         print("Error: Please set the GROQ_API_KEY environment variable.")
