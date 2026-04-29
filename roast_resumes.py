@@ -103,4 +103,5 @@ def roast_resumes(input_file, output_file):
     print(f"\nAll done! Results stored in {output_file}")
 
 if __name__ == "__main__":
-    roast_resumes('modified-prompt-2.jsonl', 'roast_results_gpt-oss-120b_2.jsonl')
+    batch = 3
+    roast_resumes(f'modified-prompt-{batch}.jsonl', f'roast_results_gpt-oss-120b_{batch}.jsonl')
